@@ -1,1 +1,7 @@
 # odin-tictacotoe
+
+This project was both a good exercise in classes and also the logic behind a recursive game with logic to determine winners. One of the main aspects I tried to accomplish with this game was to make it so only one function was actually accessible, the play game function on the game class. The player classes are created as instance variables in the game object, and all of the logic and game functionality is built into private methods that call upon each other within the object.
+
+One of the big things I currently find myself struggling to conceptualize when it comes to OOP is the difference between when to use @/@@ and self. in my objects. That is one area I need to study more and improve upon going forward - you will notice there is a lack of self. in this code solution.
+
+Regardless of that struggle though, I had a good time visualizing the flow of tic tac toe and putting it all in an object so theoretically going forward you can just instantiate a new class whenever you want to play another game. I also want to add in a memory saving functionality going forward, involving deleting finished game objects from memory once a winner has been determined. I'll come back to that.
