@@ -2,7 +2,6 @@ require 'pry-byebug'
 
 # creates the singular game of tic tac toe. Will delete instance after winner, and new instance will have to be created
 class Game
-  attr_accessor :player_x
   def initialize
     @board_array = [*0..8]
     @last_play = 'o'
@@ -12,10 +11,13 @@ class Game
     @player_o = Player.new('o')
   end
 
+  public
+
   def play_game
-    if @winner == true
-      winning_player = check_for_winner(@board_array)[1]
-      puts "The winner is #{winning_player}!"
+    winning_player = check_for_winner(@board_array)
+    # binding.pry
+    if winning_player[0] == true
+      puts "The winner is #{winning_player[1]}!"
       print_board(@board_array)
     elsif @rounds == 9
       puts 'Looks like this was a cats game!'
@@ -24,9 +26,13 @@ class Game
       @rounds += 1
       valid_moves = get_valid(@board_array)
       @last_play = check_player
-      round_iterator(@last_play, valid_moves)
+      hash = round_iterator(@last_play, valid_moves)
+      @board_array[hash[:move]] = hash[:symbol]
+      play_game
     end
   end
+
+  private
 
   def print_board(board_array)
     puts "#{board_array[0]}|#{board_array[1]}|#{board_array[2]}"
@@ -54,7 +60,7 @@ class Game
     elsif board_array[6] == board_array[4] && board_array[4] == board_array[2]
       [true, board_array[6]]
     else
-      false
+      [false, nil]
     end
   end
 
@@ -67,7 +73,6 @@ class Game
   end
 
   def get_move(player, valid_moves)
-    # code
     puts "It is player #{player}'s turn! Please enter the number where you would like to play."
     index = gets
     begin
@@ -77,28 +82,29 @@ class Game
       get_move(player, valid_moves)
     else
       if index.between?(0, 8) && valid_moves.include?(index)
-        # return value here
+        move = index
       else
         puts "That doesn't appear to be a valid entry. Please try again."
       end
     end
+    move
   end
 
   def round_iterator(last_play, valid_moves)
     print_board(@board_array)
+    move = get_move(last_play, valid_moves)
     if last_play == 'x'
-      move = get_move(last_play, valid_moves)
-      hash = @player_o.make_move(move)
+      hash = @player_x.make_move(move)
     else
-      move = get_move(last_play, valid_moves)
-      hash = player_x.make_move(move)
+      hash = @player_o.make_move(move)
     end
+    hash
   end
 
   def get_valid(board)
     valid = []
     board.each do |move_spot|
-      if move_spot.is_an_int
+      if move_spot.is_a? Integer
         valid.push(move_spot)
       end
     end
@@ -118,5 +124,4 @@ class Player
 end
 
 tic_tac_toe = Game.new
-binding.pry
 tic_tac_toe.play_game
