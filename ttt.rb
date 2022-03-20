@@ -85,6 +85,7 @@ class Game
         move = index
       else
         puts "That doesn't appear to be a valid entry. Please try again."
+        get_move(player, valid_moves)
       end
     end
     move
