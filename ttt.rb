@@ -9,6 +9,7 @@ class Game
     @rounds = 0
     @player_x = Player.new('x')
     @player_o = Player.new('o')
+    @move = nil
   end
 
   public
@@ -73,31 +74,30 @@ class Game
   end
 
   def get_move(player, valid_moves)
+    valid_inputs = ['0', '1', '2', '3', '4', '5', '6', '7', '8']
     puts "It is player #{player}'s turn! Please enter the number where you would like to play."
-    index = gets
-    begin
+    index = gets.chomp
+    if valid_inputs.include? index
       index = index.to_i
-    rescue
-      puts "It doesn't appear you've entered a number. Please try again."
-      get_move(player, valid_moves)
-    else
       if index.between?(0, 8) && valid_moves.include?(index)
-        move = index
+        @move = index
       else
         puts "That doesn't appear to be a valid entry. Please try again."
         get_move(player, valid_moves)
       end
+    else
+      puts "It doesn't appear you've entered a valid number. Please try again."
+      get_move(player, valid_moves)
     end
-    move
   end
 
   def round_iterator(last_play, valid_moves)
     print_board(@board_array)
-    move = get_move(last_play, valid_moves)
+    get_move(last_play, valid_moves)
     if last_play == 'x'
-      hash = @player_x.make_move(move)
+      hash = @player_x.make_move(@move)
     else
-      hash = @player_o.make_move(move)
+      hash = @player_o.make_move(@move)
     end
     hash
   end
