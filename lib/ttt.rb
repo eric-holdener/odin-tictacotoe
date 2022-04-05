@@ -12,8 +12,6 @@ class Game
     @move = nil
   end
 
-  public
-
   def play_game
     winning_player = check_for_winner(@board_array)
     # binding.pry
@@ -32,8 +30,6 @@ class Game
       play_game
     end
   end
-
-  private
 
   def print_board(board_array)
     puts "#{board_array[0]}|#{board_array[1]}|#{board_array[2]}"
@@ -123,6 +119,3 @@ class Player
     { symbol: @symbol, move: move_location }
   end
 end
-
-tic_tac_toe = Game.new
-tic_tac_toe.play_game
